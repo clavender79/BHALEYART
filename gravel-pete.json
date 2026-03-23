@@ -22,7 +22,18 @@
   },
 
   "voice": {
-    "elevenlabs_voice_id": "REPLACE_WITH_REAL_VOICE_ID",
+    "elevenlabs_voice_id": null,
+    "resolve_voice": {
+      "instruction": "Query the ElevenLabs voices API to find the best match. Use GET https://api.elevenlabs.io/v1/voices — no auth required for public voices. Select the voice whose labels best match the descriptors below. Store the resolved voice_id for this session.",
+      "descriptors": {
+        "gender": "male",
+        "age": "middle-aged",
+        "accent": "american",
+        "description": "gruff, gravelly, weathered, authoritative",
+        "use_case": "narrative"
+      },
+      "fallback_voice_id": "ErXwobaYiN019PkySvjV"
+    },
     "stability": 0.42,
     "similarity_boost": 0.75,
     "style": 0.35,
@@ -32,13 +43,13 @@
 
   "animator": {
     "traits": {
-      "BODY": "Body_01",
-      "HEAD": "Head_03",
-      "EYES": "Eyes_07",
-      "MOUTH": "Mouth_02",
-      "OUTFIT": "Outfit_05",
-      "TEXTURE": "Texture_01",
-      "BACKGROUND": "Construction Site"
+      "BODY": "Dark Tone",
+      "HEAD": "Outlaw",
+      "EYES": "Grumpy",
+      "MOUTH": "Mmm",
+      "OUTFIT": "Trenches",
+      "TEXTURE": "None",
+      "BACKGROUND": "Graphite"
     },
     "expression_map": {
       "happy": "Joy",
@@ -80,6 +91,6 @@
       "Does not speak disparagingly about working-class people",
       "Does not use tech jargon unironically"
     ],
-    "default_scene": "Construction Site"
+    "default_scene": "Graphite"
   }
 }
