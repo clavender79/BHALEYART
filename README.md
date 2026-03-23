@@ -19,16 +19,15 @@ This repo contains two things:
 /
 ├── README.md               ← You are here. Tool pipeline.
 ├── AGENT_SCHEMA.md         ← Soul file format spec + submission instructions
-└── characters/
-    └── gravel-pete.json    ← Example soul file (parseable character definition)
+└── gravel-pete.json        ← Example soul file (parseable character definition)
 ```
 
 ### Recommended Agent Entry Point
 
 ```
-1. READ    AGENT_SCHEMA.md              — understand soul file structure
-2. LOAD    characters/[character].json  — parse target character
-3. FOLLOW  README.md pipeline           — Customizer → ElevenLabs → Animator → Export
+1. READ    AGENT_SCHEMA.md         — understand soul file structure
+2. LOAD    [character].json        — parse target character
+3. FOLLOW  README.md pipeline      — Customizer → ElevenLabs → Animator → Export
    using soul file fields to populate:
    - animator.traits          → Stage 1 (Customizer trait slots)
    - voice.elevenlabs_voice_id + voice params → Stage 2 (ElevenLabs config)
@@ -43,12 +42,16 @@ This repo contains two things:
 
 ## Prerequisites
 
+> ⚠️ **BROWSER AUTOMATION REQUIRED**  
+> Stages 1 and 3 use browser-based GUI tools — they are not APIs. Executing this pipeline requires **computer use / headless browser capability**. The ElevenLabs TTS API (Stage 2) is the only stage callable without browser automation. If your agent cannot control a browser, it cannot complete this pipeline autonomously.
+
 | Requirement | Details |
 |---|---|
 | BHB Customizer | `https://bigheadbillionaires.com/customizer` |
 | BHB Animator | `https://bigheadbillionaires.com/animator` |
 | ElevenLabs account | Free tier sufficient for short clips (`https://elevenlabs.io`) |
 | Browser | Chromium-based recommended (Chrome, Edge, Brave). Firefox supported. Safari: limited export. |
+| Browser Automation | Computer use or headless browser control required for Stages 1 and 3 |
 | Audio file format | `.mp3` or `.wav`, mono or stereo, any sample rate |
 
 ---
@@ -280,13 +283,13 @@ Repeat the following for **Character A** then **Character B**:
 ## Full Pipeline Summary (Machine-Readable)
 
 ```
-INPUT: characters/[character_id].json + dialogue script
+INPUT: [character_id].json + dialogue script
 
 STEP 0  [Soul File]    Load character JSON → extract traits, voice_id, voice params, expression_map, prompt_prefix
-STEP 1  [Customizer]   Set trait slots from soul.animator.traits → Export PNG (reference)
-STEP 2  [ElevenLabs]   Build prompt using soul.agent_instructions.prompt_prefix → Set voice params from soul.voice → Generate → Download .mp3
-STEP 3  [Animator]     Load traits → Upload .mp3 → Map script emotion beats via soul.animator.expression_map → Set expression keyframes → Select soul.agent_instructions.default_scene
-STEP 4  [Animator]     Preview playback → Confirm sync → Export .mp4
+STEP 1  [Customizer]   BROWSER REQUIRED → Set trait slots from soul.animator.traits → Export PNG (reference)
+STEP 2  [ElevenLabs]   API CALLABLE → Build prompt using soul.agent_instructions.prompt_prefix → Set voice params from soul.voice → Generate → Download .mp3
+STEP 3  [Animator]     BROWSER REQUIRED → Load traits → Upload .mp3 → Map script emotion beats via soul.animator.expression_map → Set expression keyframes → Select soul.agent_instructions.default_scene
+STEP 4  [Animator]     BROWSER REQUIRED → Preview playback → Confirm sync → Export .mp4
 
 OUTPUT: .mp4 — H.264 video, AAC audio, animated BHB character, lip-synced
 ```
@@ -300,6 +303,6 @@ OUTPUT: .mp4 — H.264 video, AAC audio, animated BHB character, lip-synced
 - ElevenLabs TTS: `https://elevenlabs.io/text-to-speech`
 - ElevenLabs SSML docs: `https://elevenlabs.io/docs/speech-synthesis/prompting`
 - Soul file schema: `AGENT_SCHEMA.md`
-- Example character: `characters/gravel-pete.json`
+- Example character: `gravel-pete.json`
 - mp4-muxer (encoder used): `https://github.com/Vanilagy/mp4-muxer`
 - BHB Discord (support): `https://discord.gg/bigheadbillionaires`
