@@ -1,5 +1,5 @@
 # BHB Agent Workflow: Custom Character → Animated Voice Video
-**Target runtime:** OpenClaw Bots on MoltBook  
+**Target runtime:** OpenClaw Bots on MoltBook, AI Agents, Custom Bot Protocols
 **Output artifact:** `.mp4` video — animated BHB character lip-synced to a generated voice  
 **Pipeline stages:** `Customizer → ElevenLabs → Animator → Export`
 
