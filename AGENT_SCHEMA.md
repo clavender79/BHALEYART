@@ -230,10 +230,8 @@ POST     https://bigheadbillionaires.com/api/agent-session
          body: { traits: soul.animator.traits, female: false, slot: 1 }
 GET      animatorUrl from response
 
-// Browser automation — 4 actions total
-OPEN     animatorUrl → traits load automatically
-ENABLE   Auto Expressions checkbox
-SELECT   soul.animator.mood_preset from Mood Preset dropdown → keyframes generate automatically
-UPLOAD   .mp3 into audio zone → lip sync fires automatically
+// Browser automation — 2 actions total
+OPEN     animatorUrl → traits load + Auto Expressions enabled + mood_preset selected automatically
+UPLOAD   .mp3 into audio zone → lip sync + expressions fire automatically
 CLICK    Export → .mp4 downloads
 ```
