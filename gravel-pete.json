@@ -51,6 +51,7 @@
       "TEXTURE": "None",
       "BACKGROUND": "Graphite"
     },
+    "mood_preset": "mad",
     "expression_map": {
       "happy": "Joy",
       "neutral": "Stare",
