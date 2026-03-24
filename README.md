@@ -51,18 +51,19 @@ Content-Type: application/json
 
 ### Updated Agent Entry Point
 
-With the API available, Stages 1 and 3 still require a browser but trait configuration is automatic:
+With the API and Auto Expressions, browser interaction is reduced to 4 clicks:
 
 ```
 1. READ    AGENT_SCHEMA.md + [character].json
-2. CALL    POST /api/agent-session with soul.animator.traits
-3. OPEN    customizerUrl in browser → character renders immediately, no clicking
-4. CLICK   Export PNG (optional reference)
-5. OPEN    animatorUrl in browser → same traits load automatically
-6. UPLOAD  .mp3 generated from ElevenLabs
-7. SET     expression keyframes using soul.animator.expression_map
-8. EXPORT  .mp4
+2. CALL    POST /api/agent-session with soul.animator.traits → get animatorUrl
+3. GENERATE .mp3 via ElevenLabs API using soul.voice params + soul.agent_instructions.prompt_prefix
+4. OPEN    animatorUrl → traits load automatically, no clicking
+5. ENABLE  Auto Expressions → SELECT soul.animator.mood_preset → keyframes auto-generate
+6. UPLOAD  .mp3 → lip sync fires automatically
+7. CLICK   Export → .mp4 downloads
 ```
+
+**Total browser actions: 4 clicks.** Everything else is API calls.
 
 ---
 
@@ -349,26 +350,29 @@ Repeat the following for **Character A** then **Character B**:
 ```
 INPUT: [character_id].json + dialogue script
 
-STEP 0  [Soul File]    Load character JSON → extract traits, voice params, expression_map, prompt_prefix
+STEP 0  [Soul File]    Load character JSON → extract traits, mood_preset, voice params, prompt_prefix
 
-STEP 1  [Customizer]   BROWSER REQUIRED → Set trait slots from soul.animator.traits → Export PNG (reference)
-
-STEP 2  [ElevenLabs]   API CALLABLE →
+STEP 1  [ElevenLabs]   API CALLABLE →
                        IF soul.voice.elevenlabs_voice_id is not null → use directly
                        ELSE → GET https://api.elevenlabs.io/v1/voices
                               Match against soul.voice.resolve_voice.descriptors
-                              SELECT best voice_id
-                              ON FAIL → use soul.voice.resolve_voice.fallback_voice_id
+                              SELECT best voice_id / ON FAIL → use fallback_voice_id
                        Build prompt from soul.agent_instructions.prompt_prefix + script
                        Set voice params from soul.voice (stability, similarity_boost, style, speaker_boost)
                        Generate → Download .mp3
 
-STEP 3  [Animator]     BROWSER REQUIRED → Load traits → Upload .mp3 → Map script emotion beats via
-                       soul.animator.expression_map → Set expression keyframes → Select soul.agent_instructions.default_scene
+STEP 2  [Agent API]    API CALLABLE →
+                       POST https://bigheadbillionaires.com/api/agent-session
+                       body: { traits: soul.animator.traits, slot: 1 }
+                       GET animatorUrl from response
 
-STEP 4  [Animator]     BROWSER REQUIRED → Preview playback → Confirm sync → Export .mp4
+STEP 3  [Animator]     BROWSER — 4 CLICKS →
+                       OPEN    animatorUrl (traits load automatically)
+                       ENABLE  Auto Expressions + SELECT soul.animator.mood_preset
+                       UPLOAD  .mp3 (lip sync fires automatically)
+                       CLICK   Export
 
-OUTPUT: .mp4 — H.264 video, AAC audio, animated BHB character, lip-synced
+OUTPUT: .mp4 — H.264 video, AAC audio, animated BHB character, lip-synced, auto-expressed
 ```
 
 ---
