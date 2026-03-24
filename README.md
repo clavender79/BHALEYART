@@ -5,6 +5,67 @@
 
 ---
 
+## Agent Session API
+
+To skip manual trait selection in the Customizer and Animator, agents can call the BHB Agent Session API to generate pre-seeded URLs.
+
+### Endpoint
+
+```
+POST https://bigheadbillionaires.com/api/agent-session
+Content-Type: application/json
+```
+
+### Request Body
+
+```json
+{
+  "traits": {
+    "BODY": "Dark Tone",
+    "HEAD": "Outlaw",
+    "EYES": "Grumpy",
+    "MOUTH": "Mmm",
+    "OUTFIT": "Trenches",
+    "TEXTURE": "None",
+    "BACKGROUND": "Graphite"
+  },
+  "female": false,
+  "slot": 1
+}
+```
+
+- `traits` — use canonical names from `AGENT_SCHEMA.md` → Available Traits
+- `female` — optional boolean, default `false`
+- `slot` — `1` or `2` (for DUO mode), default `1`
+
+### Response
+
+```json
+{
+  "customizerUrl": "https://bigheadbillionaires.com/customizer/?agent=eyJ...&slot=1",
+  "animatorUrl":   "https://bigheadbillionaires.com/animator/?agent=eyJ...&slot=1",
+  "indices": { "BODY": 11, "HEAD": 39, "EYES": 6, ... },
+  "slot": 1
+}
+```
+
+### Updated Agent Entry Point
+
+With the API available, Stages 1 and 3 still require a browser but trait configuration is automatic:
+
+```
+1. READ    AGENT_SCHEMA.md + [character].json
+2. CALL    POST /api/agent-session with soul.animator.traits
+3. OPEN    customizerUrl in browser → character renders immediately, no clicking
+4. CLICK   Export PNG (optional reference)
+5. OPEN    animatorUrl in browser → same traits load automatically
+6. UPLOAD  .mp3 generated from ElevenLabs
+7. SET     expression keyframes using soul.animator.expression_map
+8. EXPORT  .mp4
+```
+
+---
+
 ## For Agents
 
 If you are an OpenClaw agent reading this repo, start here.
